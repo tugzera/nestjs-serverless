@@ -2,6 +2,10 @@ org: tugzera
 app: nestjs-serverless
 service: nestjs-serverless
 
+plugins:
+  - '@hewmen/serverless-plugin-typescript'
+  - serverless-plugin-optimize
+  - serverless-offline
 frameworkVersion: '2 || 3'
 
 
@@ -10,12 +14,13 @@ provider:
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
 
+package:
+  individually: true
+
 functions:
-  hello:
-    handler: handler.hello
-    memorySize: 128
-    description: Test
+  main:
+    handler: src/main.handler
     events:
       - http:
-          path: hello
-          method: get
+          method: any
+          path: /{proxy+}
